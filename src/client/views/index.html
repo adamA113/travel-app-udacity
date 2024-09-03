@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Travel App</title>
+</head>
+
+<body>
+
+    <header>
+        <h1>Travel App</h1>
+    </header>
+
+    <main>
+        <div class="page-content">
+            <section class="form">
+                <form class="" onsubmit="return Client.handleSubmit(event)">
+                    <label for="location">Enter the location you want to visit:</label>
+                    <input id="location" type="text" name="location" placeholder="City name" required>
+            
+                    <label for="date">Enter the departure date:</label>
+                    <input id="date" type="text" name="date" placeholder="date" required>
+                    <div>Weather Forcasted data are up to 16 days from current date</div>
+                    <div>Pleae enter the date in this format day/month/year. Example 17/5/2024</div>
+            
+                    <input id="submit" type="submit" value="submit" onclick="return Client.handleSubmit(event)">
+                </form>
+            </section>
+            
+            <section class="weather-data hidden">
+                <div class="section-title">
+                    <strong>Weather Details for <span id="city-name"></span>:</strong>
+                </div>
+                <div id="date"></div>
+                <div id="high-temp"></div>
+                <div id="low-temp"></div>
+                <div id="temp"></div>
+                <div id="description"></div>
+                <div id="wind-dir"></div>
+            </section>
+            
+            <section class="location-images hidden">
+                <div class="section-title"><b>Image Gallery</b></div>
+                <div id="gallery" class="gallery"></div>
+            </section>
+        </div>
+    
+    </main>
+
+    <footer>
+        <div class="copyright">
+            <i class="fa-regular fa-copyright"></i>
+            <span>All rights reserved 2024</span>
+        </div>
+    </footer>
+    <!-- <script>
+            // Check that service workers are supported
+            if ('serviceWorker' in navigator) {
+                // Use the window load event to keep the page load performant
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/service-worker.js');
+                });
+            }
+        </script> -->
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+:root {
+  --body: #212529;
+  --body-bg: #f7fbff;
+  --light: #fff;
+  --border: #ddd;
+  --warnings: #ff6b6b;
+  --page-inline-padding: 2rem;
+}
+
+////////////////////////////////////////////////////
+* {
+  box-sizing: border-box;
+}
+
+html {
+  line-height: 1.15;
+}
+
+body {
+  margin: 0;
+  background-color: var(--body-bg);
+}
+
+main {
+  display: block;
+}
+
+image {
+  border-style: none;
+}
+
+///////////////////////////////////////////////////
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: var(--body);
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-block-end: 2rem;
+}
+
+header {
+  background-color: var(--light);
+  padding: 10px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-block-end: 20px;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: var(--light);
+  padding: 1rem 2rem;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  margin-block-start: 5rem;
+}
+
+.section-title {
+  margin-block-end: 1rem;
+  font-size: 1.3rem;
+}
+
+section.form {
+  margin-inline: 1rem;
+}
+
+section.form div {
+  color: var(--warnings);
+
+}
+
+section.weather-data {
+  border: 1px solid black;
+  padding: 1rem 5rem;
+  border-radius: 5px;
+}
+
+section.weather-data div {
+  margin-block: 0.3rem;
+}
+
+section.location-images {
+   margin-block-end: 5rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.page-content {
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.gallery-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  max-width: 300px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+.gallery-item img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+.gallery-item p {
+  margin: 10px 0 5px;
+  font-size: 14px;
+}
