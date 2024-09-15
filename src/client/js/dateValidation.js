@@ -1,3 +1,4 @@
+// this function is to validate the date format which the user enter
 const checkDateValidation = (tripDate) => {
     const regex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
 

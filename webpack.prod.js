@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
@@ -7,15 +6,18 @@ const TerserPlugin = require('terser-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
-    entry: './src/client/index.js',
+    mode: 'production',
+    entry: {
+        bundle: path.resolve(__dirname, 'src/client/index.js'),
+    },
     output: {
-        libraryTarget: 'var',
-        library: 'Client'
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name][contenthash].js',
+        clean: true,
     },
     optimization: {
         minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
     },
-    mode: 'production',
     module: {
         rules: [
             {

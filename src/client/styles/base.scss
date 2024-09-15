@@ -2,9 +2,7 @@
   --body: #212529;
   --body-bg: #f7fbff;
   --light: #fff;
-  --border: #ddd;
   --warnings: #ff6b6b;
-  --page-inline-padding: 2rem;
 }
 
 ////////////////////////////////////////////////////
@@ -47,6 +45,8 @@ section {
 }
 
 header {
+  position: sticky;
+  top: 0;
   background-color: var(--light);
   padding: 10px 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -56,8 +56,7 @@ header {
 footer {
   position: fixed;
   bottom: 0;
-  right: 0;
-  left: 0;
+  width: 100%;
   background-color: var(--light);
   padding: 1rem 2rem;
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
@@ -79,7 +78,6 @@ section.form div {
 }
 
 section.weather-data {
-  border: 1px solid black;
   padding: 1rem 5rem;
   border-radius: 5px;
 }
@@ -104,6 +102,24 @@ section.location-images {
   justify-content: center;
 }
 
+.day-weather-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.weather-card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  width: 19rem;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #035d8a;
+  color: #fff
+}
+
 .gallery {
   display: flex;
   flex-wrap: wrap;
@@ -114,16 +130,18 @@ section.location-images {
 .gallery-item {
   border: 1px solid #ddd;
   padding: 10px;
-  max-width: 300px;
+  width: 18rem;
   text-align: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 }
+
 .gallery-item img {
   max-width: 100%;
   height: auto;
   border-radius: 4px;
 }
+
 .gallery-item p {
   margin: 10px 0 5px;
   font-size: 14px;

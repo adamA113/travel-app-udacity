@@ -1,16 +1,21 @@
+import { checkDateValidation } from './dateValidation';
+import { checkDateRange, dataFormat } from './dateRangeValidation';
+
 const handleSubmit = async (event) => {
     event.preventDefault()
 
     const serverUrl = `http://localhost:3000`;
     const location = document.getElementById('location').value;
-    const departureDate = document.getElementById('date').value;
+    const inputDate = document.getElementById('date').value;
+    const departureDate = inputDate ? dataFormat(inputDate) : "";
 
     if (!!location) {
-        if (!!Client.checkDateValidation(departureDate)) {
-            if (!!Client.checkDateRange(departureDate)) {
-                console.log("::: Form Submitted :::");
-                const response = await postData(`${serverUrl}/travel`, { location, departureDate });
-                prepareDataToView(response);
+        if (!!checkDateValidation(inputDate)) {
+            if (!!checkDateRange(inputDate)) {
+            console.log("::: Form Submitted :::");
+            const response = await postData(`${serverUrl}/travel`, { location, departureDate });
+
+            prepareDataToView(response);
             } else {
                 alert('Please enter a date within max 16 days range from now');
             }
@@ -40,23 +45,45 @@ const postData = async (url = '', data = {}) => {
     }
 }
 
-const prepareDataToView = ({ location, tripDateWeatherData, locationImages }) => {
-    prepareLocationWeatherDetails({ location, tripDateWeatherData });
+const prepareDataToView = ({ location, availableDatesWeather, locationImages }) => {
+    prepareLocationWeatherDetails({ location, availableDatesWeather });
     prepareLocationImages(locationImages);
 }
 
-const prepareLocationWeatherDetails = ({ location, tripDateWeatherData }) => {
-    if (tripDateWeatherData) {
+const prepareLocationWeatherDetails = ({ location, availableDatesWeather }) => {
+    if (availableDatesWeather?.length) {
         document.querySelector('.weather-data').classList.remove('hidden');
     }
+    
+    const inputDate = document.getElementById('date').value;
+    const weatherDataElement = document.getElementById('day-weather-details');
+    weatherDataElement.innerHTML = '';
 
     document.getElementById('city-name').innerHTML = `${location}`;
-    document.getElementById('date').innerHTML = `Date: ${tripDateWeatherData?.datetime}`;
-    document.getElementById("high-temp").innerHTML = `Highest Temperature: ${tripDateWeatherData?.high_temp} celsius`;
-    document.getElementById("low-temp").innerHTML = `Lowest Temperature: ${tripDateWeatherData?.low_temp} celsius`;
-    document.getElementById("temp").innerHTML = `Temperature: ${tripDateWeatherData?.temp} celsius`;
-    document.getElementById("description").innerHTML = `Weather description: ${tripDateWeatherData?.weather?.description} `;
-    document.getElementById("wind-dir").innerHTML = `Wind Direction: ${tripDateWeatherData?.wind_cdir_full}`;
+
+    availableDatesWeather.forEach((dayWeather) => {
+        const weatherCard = document.createElement('div');
+        const isTripDate = dataFormat(inputDate) === dayWeather.datetime;
+
+        weatherCard.classList.add('weather-card');
+
+        weatherCard.innerHTML = `
+            <div class="weather-details">
+                <p><b>${isTripDate ? 'Trip Date' : 'Date'}:</b> ${dayWeather.datetime || 'N/A'}</p>
+                <p><b>Highest Temperature:</b> ${dayWeather?.high_temp || 'N/A'} Celsius</p>
+                <p><b>Lowest Temperature:</b> ${dayWeather?.low_temp || 'N/A'} Celsius</p>
+                <p><b>Temperature:</b> ${dayWeather?.temp || 'N/A'} Celsius</p>
+                <p><b>Weather description:</b> ${dayWeather?.weather?.description || 'N/A'}</p>
+                <p><b>Wind Direction:</b> ${dayWeather?.wind_cdir_full || 'N/A'}</p>
+            </div>
+        `;
+
+        if (isTripDate) {
+            weatherCard.style.backgroundColor = '#0093db';
+        }
+
+        weatherDataElement.appendChild(weatherCard);
+    });
 }
 
 const prepareLocationImages = (locationImages) => {
@@ -65,6 +92,7 @@ const prepareLocationImages = (locationImages) => {
     }
 
     const galleryElement = document.getElementById('gallery');
+    galleryElement.innerHTML = '';
 
     locationImages?.hits?.forEach(image => {
         const item = document.createElement('div');
@@ -74,8 +102,8 @@ const prepareLocationImages = (locationImages) => {
                 <a href="${image.pageURL}" target="_blank">
                     <img src="${image.previewURL}" alt="${image.tags}">
                 </a>
-                <p><strong>Tags:</strong> ${image.tags}</p>
-                <p><strong>Author:</strong> ${image.user}</p>
+                <p><b>Tags:</b> ${image.tags}</p>
+                <p><b>Author:</b> ${image.user}</p>
                 <a href="${image.pageURL}" target="_blank">View Image</a>
             `;
 

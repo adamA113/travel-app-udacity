@@ -10,7 +10,6 @@ const geonamesBaseUrl = `http://api.geonames.org/searchJSON`;
 const pixabayBaseUrl = `https://pixabay.com/api/`;
 const weatherbitBaseUrl = `https://api.weatherbit.io/v2.0/forecast/daily`;
 
-
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
@@ -25,7 +24,7 @@ app.get('/', (req, res) => {
 app.post('/travel', async (req, res) => {
     const { location, departureDate } = req.body;
 
-///////////////////////////////////////////////////////////////// calling geonames and pixabay apis
+    ///////////////////////////////////////////////////////////////// calling geonames and pixabay apis
     const geoNamesParams = new URLSearchParams({
         name: location,
         maxRows: 10,
@@ -62,10 +61,10 @@ app.post('/travel', async (req, res) => {
 
     const locationImages = await pixabayResponse.json();
 
-///////////////////////////////////////////////////////////////// calling weatherbit api
+    ///////////////////////////////////////////////////////////////// calling weatherbit api
     const weatherbitParams = new URLSearchParams({
-        lat: parseFloat(locationDetails.lat),
-        lon: parseFloat(locationDetails.lng),
+        lat: parseFloat(locationDetails?.lat),
+        lon: parseFloat(locationDetails?.lng),
         key: weatherbitApiKey
     });
     const weatherbitURL = `${weatherbitBaseUrl}?${weatherbitParams.toString()}`;
@@ -77,10 +76,31 @@ app.post('/travel', async (req, res) => {
     });
     const WeatherDetails = await weatherbitResponse.json();
 
-    // const tripDateWeatherData = WeatherDetails.data.filter((day) => day?.datetime === departureDate)
-    const tripDateWeatherData = WeatherDetails?.data?.[0];
-    res.send({ location, tripDateWeatherData, locationImages });
+    const WeatherDates = WeatherDetails.data;
+    const availableDates = getSurroundingDates(WeatherDates, departureDate);
+    const availableDatesWeather = WeatherDates.filter(day =>
+        availableDates.includes(day.datetime)
+    );
+
+    res.send({ location, availableDatesWeather, locationImages });
 })
+
+
+const getSurroundingDates = (WeatherDetails, enteredDate) => {
+    const dates = WeatherDetails.map((dateWeather) => dateWeather.datetime)
+    const enteredDateIndex = dates.findIndex(date => date === enteredDate);
+
+    if (enteredDateIndex === -1) {
+        return [];
+    }
+
+    // Get the 2 days before and 7 days after if they exist
+    const startIndex = Math.max(0, enteredDateIndex - 2); // Ensure index doesn't go below 0
+    const endIndex = Math.min(dates.length - 1, enteredDateIndex + 7); // Ensure index doesn't exceed array length
+
+    // Return the slice of dates
+    return dates.slice(startIndex, endIndex + 1);
+};
 
 // Setup Server
 const port = 3000;
@@ -89,6 +109,4 @@ const listening = () => {
 };
 const server = app.listen(port, listening);
 
-module.exports = {
-    port
-}
+module.exports = app;

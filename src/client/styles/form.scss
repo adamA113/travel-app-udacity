@@ -10,3 +10,18 @@ input {
     line-height: 16px;
     margin: 10px 0;
 }
+
+label {
+    font-weight: 600;
+}
+
+#submit {
+    font-weight: 600;
+    cursor: pointer;
+    background-color: #d8e4ff;
+}
+
+#submit:hover {
+    color: #fff;
+    background-color: #6895ff;
+}

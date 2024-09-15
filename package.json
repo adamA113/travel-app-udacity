@@ -6,7 +6,7 @@
     "test": "jest",
     "start": "nodemon src/server/index.js",
     "build": "webpack --config webpack.prod.js",
-    "dev": "webpack serve --config webpack.dev.js --open"
+    "dev": "webpack serve --config webpack.dev.js"
   },
   "keywords": [],
   "author": "",
@@ -33,9 +33,14 @@
     "sass": "^1.77.8",
     "sass-loader": "^16.0.0",
     "style-loader": "^4.0.0",
+    "supertest": "^7.0.0",
     "terser-webpack-plugin": "^5.3.10",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4",
     "workbox-webpack-plugin": "^7.1.0"
+  },
+  "engines": {
+    "node": ">=20.17.0",
+    "npm": ">=10.8.2"
   }
 }
