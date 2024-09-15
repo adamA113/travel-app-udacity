@@ -1,27 +1,22 @@
-import { checkDateValidation } from './dateValidation';
-import { checkDateRange, dataFormat } from './dateRangeValidation';
+import { checkDateRange } from './dateRangeValidation';
 
 const handleSubmit = async (event) => {
     event.preventDefault()
 
     const serverUrl = `http://localhost:3000`;
     const location = document.getElementById('location').value;
-    const inputDate = document.getElementById('date').value;
-    const departureDate = inputDate ? dataFormat(inputDate) : "";
+    const departureDate = document.getElementById('date').value;
 
     if (!!location) {
-        if (!!checkDateValidation(inputDate)) {
-            if (!!checkDateRange(inputDate)) {
+        if (!!checkDateRange(departureDate)) {
             console.log("::: Form Submitted :::");
             const response = await postData(`${serverUrl}/travel`, { location, departureDate });
 
             prepareDataToView(response);
-            } else {
-                alert('Please enter a date within max 16 days range from now');
-            }
         } else {
-            alert('Please enter a valid date');
+            alert('Please enter a date within max 16 days range from now');
         }
+
     } else {
         alert('Please location to visit');
     }
@@ -54,7 +49,7 @@ const prepareLocationWeatherDetails = ({ location, availableDatesWeather }) => {
     if (availableDatesWeather?.length) {
         document.querySelector('.weather-data').classList.remove('hidden');
     }
-    
+
     const inputDate = document.getElementById('date').value;
     const weatherDataElement = document.getElementById('day-weather-details');
     weatherDataElement.innerHTML = '';
@@ -63,7 +58,7 @@ const prepareLocationWeatherDetails = ({ location, availableDatesWeather }) => {
 
     availableDatesWeather.forEach((dayWeather) => {
         const weatherCard = document.createElement('div');
-        const isTripDate = dataFormat(inputDate) === dayWeather.datetime;
+        const isTripDate = inputDate === dayWeather.datetime;
 
         weatherCard.classList.add('weather-card');
 
