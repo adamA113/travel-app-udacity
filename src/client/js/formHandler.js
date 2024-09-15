@@ -16,7 +16,6 @@ const handleSubmit = async (event) => {
         } else {
             alert('Please enter a date within max 16 days range from now');
         }
-
     } else {
         alert('Please location to visit');
     }
